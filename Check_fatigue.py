@@ -218,7 +218,7 @@ class fatigue:
 								print(min_tm/1000 , "-" , max_tm/1000)
 								print("frames",fs,"-",fe)
 								pre=0
-								yield 1,fs,fe
+								yield 1,fs,fe # 1 indicates that drowsiness has ebeen detected.
 							min_avg=avg
 							min_tm = tm
 							fs = f
@@ -249,7 +249,7 @@ class fatigue:
 								print("frames",fs_m,"-",fe_m)
 								#min_avg_y=0
 								pre_y=0
-								yield 2,fs,fe
+								yield 2,fs,fe # 1 indicates that a yawn has been detected.
 
 
 							min_avg_y=mar
