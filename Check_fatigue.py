@@ -3,12 +3,12 @@ import numpy as np
 import dlib
 from scipy.spatial import distance as dist
 import time
-from utils import utils
+from utils import utils # used for yield
 
 class fatigue:
 
 	def __init__(self):
-		self.utils = utils()
+		self.utils = utils() # for yield
 		self.thld = 0.0
 		self.detector = None
 		self.predictor = None
@@ -64,7 +64,7 @@ class fatigue:
 		tm_1=time.time()
 		f=0
 
-		while cap.isOpened():
+		while cap.isOpened(): # While the camera is open
 
 			ret, frame = cap.read()
 		    
@@ -90,12 +90,13 @@ class fatigue:
 					avg = (leftEAR+rightEAR)/2.0
 					ear.append(avg)
 			        
-				key = cv2.waitKey(1)
+				key = cv2.waitKey(1)#1 means that a frame in the video will be held for atleast 1 ms and then changed to next frame in streaming video. How much more time it takes greater than a ms depends on other instruction being taken care of in the OS. 
+				# 1 can be changed to other number based on how many ms you want the frame to wait.
 				tm_2=time.time()
 				cv2.imshow("Frame", frame)
 
-				if key == 27 or (tm_2-tm_1 > 60) :
-					break
+				if key == 27 or (tm_2-tm_1 > 60) :# key ==27 implies that when the escape key is pressed, stop the video streaming.
+					break # also breaks if there is more than a minute's gap since the camera was opened...I think that may not be required...Will have to check it out.
 			else:
 				break
 
@@ -105,7 +106,7 @@ class fatigue:
 		cv2.destroyAllWindows()
 
 
-		self.thld = np.percentile(ear,10)
+		self.thld = np.percentile(ear,10)# takes top 10th percentile of average distance so as to not include blinks
 
 
 	def detect_fatigue(self,vid):
