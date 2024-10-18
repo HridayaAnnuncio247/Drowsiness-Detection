@@ -195,15 +195,15 @@ class fatigue:
 					#DROWSINESS DETECTION
 					if min_avg==0 :
 			            #print("entered 1st if")
-						min_avg=avg
+						min_avg=avg#setiing min avg for the first time
 						min_tm = tm
-						fs = f
+						fs = f # blink start frame (s for start) ie.e the first time the EAR has gone 
 					else:
 						if (avg<(min_avg+0.03) and avg>(min_avg-0.03) and avg<self.thld):
 
 							max_tm= tm
 							fe = f
-							if((max_tm-min_tm) >= 1000):
+							if((max_tm-min_tm) >= 1000): # means if the interval of the blink going below average and going below threshold is more than 1000 ms, it could be drowsiness, cause a blonnk takes lesser time. Need to do more research on the amnt of time i takes for a blink.
 								#print(max_tm-min_tm)
 								#print("Drowsy behaviour")						
 								#min_avg=0
@@ -213,15 +213,15 @@ class fatigue:
 								#yield 1
 
 						else:
-							if pre==1:
+							if pre==1:# drowsiness was detecteed in the previous frame but now in the else,avg has gone above min avg or threshold
 								#min_avg=0
 								print(min_tm/1000 , "-" , max_tm/1000)
 								print("frames",fs,"-",fe)
 								pre=0
-								yield 1,fs,fe # 1 indicates that drowsiness has ebeen detected.
+								yield 1,fs,fe # 1 indicates that drowsiness has been detected. fs and fe used to talk about the number of frames used to detect drowsiness
 							min_avg=avg
 							min_tm = tm
-							fs = f
+							fs = f# reset start frame each time the EAR is not below min avg and threshold
 
 					#YAWN DETECTION
 
